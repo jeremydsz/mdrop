@@ -97,13 +97,17 @@
   }
   body {
     @apply bg-background text-foreground antialiased;
+    padding-top: env(safe-area-inset-top);
+    padding-left: env(safe-area-inset-left);
+    padding-right: env(safe-area-inset-right);
+    padding-bottom: env(safe-area-inset-bottom);
   }
 }
 
 /* Typography scale - MDrop design system */
 .text-display {
   font-family: var(--font-geist-sans);
-  font-size: 2rem;
+  font-size: clamp(1.625rem, 1.2rem + 1.8vw, 2rem);
   font-weight: 600;
   letter-spacing: -0.025em;
   line-height: 1.2;
@@ -111,7 +115,7 @@
 
 .text-title {
   font-family: var(--font-geist-sans);
-  font-size: 1.5rem;
+  font-size: clamp(1.25rem, 1.05rem + 0.9vw, 1.5rem);
   font-weight: 600;
   letter-spacing: -0.02em;
   line-height: 1.3;
@@ -172,7 +176,7 @@
 
 .prose-mdrop h1 {
   font-family: var(--font-geist-sans);
-  font-size: 2rem;
+  font-size: clamp(1.625rem, 1.2rem + 1.8vw, 2rem);
   font-weight: 600;
   letter-spacing: -0.025em;
   line-height: 1.2;
@@ -182,7 +186,7 @@
 
 .prose-mdrop h2 {
   font-family: var(--font-geist-sans);
-  font-size: 1.5rem;
+  font-size: clamp(1.25rem, 1.05rem + 0.9vw, 1.5rem);
   font-weight: 600;
   letter-spacing: -0.02em;
   line-height: 1.3;
@@ -192,7 +196,7 @@
 
 .prose-mdrop h3 {
   font-family: var(--font-geist-sans);
-  font-size: 1.125rem;
+  font-size: clamp(1rem, 0.95rem + 0.35vw, 1.125rem);
   font-weight: 500;
   letter-spacing: -0.015em;
   line-height: 1.4;
@@ -270,7 +274,10 @@
 }
 
 .prose-mdrop table {
+  display: block;
   width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
   margin-bottom: 16px;
   border-collapse: collapse;
 }

@@ -26,7 +26,7 @@ export function NotePageActions({
 
   return (
     <>
-      <IconActionRow>
+      <IconActionRow className="w-full flex-wrap justify-start sm:w-auto sm:justify-end">
         <DownloadNoteButton content={noteContent} title={noteTitle} iconOnly />
         <CopyLinkButton noteId={noteId} iconOnly />
         {isAuthor && (

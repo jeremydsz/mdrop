@@ -14,6 +14,7 @@ import type { Note, Tag, Comment } from "@/types/database";
 
 type Props = {
   params: Promise<{ id: string }>;
+  searchParams: Promise<{ from?: string }>;
 };
 
 async function getNote(id: string): Promise<
@@ -102,8 +103,8 @@ function formatDate(dateString: string) {
   });
 }
 
-export default async function NotePage({ params }: Props) {
-  const { id } = await params;
+export default async function NotePage({ params, searchParams }: Props) {
+  const [{ id }, { from }] = await Promise.all([params, searchParams]);
   const [note, user] = await Promise.all([getNote(id), getUser()]);
 
   if (!note) {
@@ -111,13 +112,14 @@ export default async function NotePage({ params }: Props) {
   }
 
   const isAuthor = user?.id === note.author_id;
+  const backHref = from === "editor" && isAuthor ? `/n/${id}/edit` : "/";
   
   // Extract title from markdown content and get content without the title
   const { title: extractedTitle, contentWithoutTitle } = extractTitleFromMarkdown(note.content);
   const displayTitle = extractedTitle || note.title;
 
   return (
-    <main className="min-h-screen py-12 px-6">
+    <main className="min-h-screen px-4 py-8 sm:px-6 sm:py-12">
       <article className="max-w-[680px] mx-auto">
         <div className="mb-6">
           <Button
@@ -127,7 +129,7 @@ export default async function NotePage({ params }: Props) {
             title="Back to notes"
             asChild
           >
-            <Link href="/">
+            <Link href={backHref}>
               <ArrowLeft className="size-4" />
             </Link>
           </Button>
@@ -137,7 +139,7 @@ export default async function NotePage({ params }: Props) {
           <h1 className="text-display text-[var(--text-primary)] mb-4">
             {displayTitle}
           </h1>
-          <div className="flex items-center justify-between">
+          <div className="flex flex-col items-start gap-4 sm:flex-row sm:items-center sm:justify-between">
             <div className="flex items-center gap-3">
               <Avatar>
                 <AvatarImage src={note.author_image || undefined} />
@@ -167,15 +169,17 @@ export default async function NotePage({ params }: Props) {
                 )}
               </div>
             </div>
-            <NotePageActions
-              noteId={note.id}
-              noteTitle={displayTitle}
-              noteContent={note.content}
-              isAuthor={isAuthor}
-            />
+            <div className="w-full sm:w-auto">
+              <NotePageActions
+                noteId={note.id}
+                noteTitle={displayTitle}
+                noteContent={note.content}
+                isAuthor={isAuthor}
+              />
+            </div>
           </div>
           {note.tags.length > 0 && (
-            <div className="flex gap-2 mt-4">
+            <div className="mt-4 flex flex-wrap gap-2">
               {note.tags.map((tag) => (
                 <span
                   key={tag.id}

@@ -50,6 +50,7 @@ export function MarkdownEditor({
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const dragDepthRef = useRef(0);
   const changeVersionRef = useRef(0);
+  const restoreScrollYRef = useRef<number | null>(null);
   const pendingSelectionRef = useRef<{ start: number; end: number } | null>(
     null
   );
@@ -322,13 +323,13 @@ export function MarkdownEditor({
     if (isSaving) return;
 
     if (noteId && !hasPendingChanges) {
-      router.push(`/n/${noteId}`);
+      router.push(`/n/${noteId}?from=editor`);
       return;
     }
 
     const nextNoteId = await handleSave();
     if (nextNoteId) {
-      router.push(`/n/${nextNoteId}`);
+      router.push(`/n/${nextNoteId}?from=editor`);
     }
   }, [handleSave, hasPendingChanges, isSaving, noteId, router]);
 
@@ -336,6 +337,14 @@ export function MarkdownEditor({
     if (textareaRef.current) {
       textareaRef.current.style.height = "auto";
       textareaRef.current.style.height = `${textareaRef.current.scrollHeight}px`;
+    }
+
+    if (restoreScrollYRef.current !== null) {
+      const scrollY = restoreScrollYRef.current;
+      restoreScrollYRef.current = null;
+      requestAnimationFrame(() => {
+        window.scrollTo({ top: scrollY });
+      });
     }
   }, [content]);
 
@@ -447,8 +456,8 @@ export function MarkdownEditor({
 
   return (
     <div className="min-h-screen flex flex-col">
-      <header className="grid grid-cols-[1fr_auto_1fr] items-center gap-4 px-6 py-4 border-b border-[var(--border)]">
-        <div className="flex items-center justify-start gap-2">
+      <header className="flex flex-wrap items-center gap-3 px-4 py-3 border-b border-[var(--border)] sm:px-6 sm:py-4 lg:grid lg:grid-cols-[1fr_auto_1fr] lg:gap-4">
+        <div className="flex min-w-0 flex-1 items-center justify-start gap-2 lg:flex-none">
           <Button
             variant="ghost"
             size="icon-sm"
@@ -477,8 +486,8 @@ export function MarkdownEditor({
             </Button>
           </div>
         </div>
-        <div className="flex items-center justify-center gap-2">
-          <p className="text-caption text-[var(--text-secondary)]">
+        <div className="order-3 flex w-full items-center justify-center gap-2 lg:order-none lg:w-auto">
+          <p className="text-caption text-[var(--text-secondary)] text-center">
             {saveStatusLabel}
           </p>
           {saveError && (
@@ -487,7 +496,7 @@ export function MarkdownEditor({
             </Button>
           )}
         </div>
-        <IconActionRow className="justify-end">
+        <IconActionRow className="ml-auto justify-end lg:ml-0">
           <DownloadNoteButton content={content} title={title || undefined} iconOnly />
           {noteId && (
             <CopyLinkButton
@@ -571,6 +580,9 @@ export function MarkdownEditor({
               ref={textareaRef}
               value={content}
               onChange={handleTextareaChange}
+              onPaste={() => {
+                restoreScrollYRef.current = window.scrollY;
+              }}
               onKeyDown={handleTextareaKeyDown}
               onBlur={closeSlashMenu}
               onClick={() => {
