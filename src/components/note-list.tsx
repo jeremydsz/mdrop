@@ -32,7 +32,6 @@ function NoteRow({ note, currentUserId }: { note: NoteWithDisplayTitle; currentU
   const isOwner = currentUserId === note.author_id;
 
   const handleCopyLink = async (e: React.MouseEvent) => {
-    e.preventDefault();
     e.stopPropagation();
     await copyNoteLink(note.id);
     setLinkCopied(true);
@@ -40,13 +39,11 @@ function NoteRow({ note, currentUserId }: { note: NoteWithDisplayTitle; currentU
   };
 
   const handleDownload = (e: React.MouseEvent) => {
-    e.preventDefault();
     e.stopPropagation();
     downloadMarkdownNote(note.content, note.displayTitle);
   };
 
   const handleDelete = (e: React.MouseEvent) => {
-    e.preventDefault();
     e.stopPropagation();
     setDeleteDialogOpen(true);
   };
@@ -108,7 +105,6 @@ function NoteRow({ note, currentUserId }: { note: NoteWithDisplayTitle; currentU
             content={note.content}
             iconOnly
             onClick={(e) => {
-              e.preventDefault();
               e.stopPropagation();
             }}
           />
