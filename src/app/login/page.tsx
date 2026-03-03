@@ -22,7 +22,7 @@ function LoginForm() {
   return (
     <div className="min-h-screen flex flex-col items-center justify-center px-4">
       <div className="w-full max-w-[320px] text-center">
-        <h1 className="text-display text-[var(--text-primary)] mb-2">MDrop</h1>
+        <h1 className="text-display text-[var(--text-primary)] mb-2">md pockla</h1>
         <p className="text-body text-[var(--text-secondary)] mb-8">
           Share markdown notes with your team
         </p>
@@ -40,7 +40,7 @@ export default function LoginPage() {
       fallback={
         <div className="min-h-screen flex flex-col items-center justify-center px-4">
           <div className="w-full max-w-[320px] text-center">
-            <h1 className="text-display text-[var(--text-primary)] mb-2">MDrop</h1>
+            <h1 className="text-display text-[var(--text-primary)] mb-2">md pockla</h1>
             <p className="text-body text-[var(--text-secondary)] mb-8">
               Share markdown notes with your team
             </p>

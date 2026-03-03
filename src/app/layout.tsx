@@ -5,12 +5,12 @@ import "./globals.css";
 
 export const metadata: Metadata = {
   title: {
-    default: "MDrop",
-    template: "%s | MDrop",
+    default: "md pockla",
+    template: "%s | md pockla",
   },
   description: "Share markdown notes with your team in one click",
   openGraph: {
-    title: "MDrop",
+    title: "md pockla",
     description: "Share markdown notes with your team in one click",
     type: "website",
   },

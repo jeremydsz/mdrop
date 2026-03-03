@@ -11,6 +11,7 @@ import { MarkdownRenderer } from "@/components/markdown-renderer";
 import { MarkdownDropOverlay } from "@/components/editor/markdown-drop-overlay";
 import { TagInput } from "@/components/editor/tag-input";
 import { DeleteNoteDialog } from "@/components/delete-note-dialog";
+import { CopyContentButton } from "@/components/copy-content-button";
 import { CopyLinkButton } from "@/components/copy-link-button";
 import { DownloadNoteButton } from "@/components/download-note-button";
 import { IconActionRow } from "@/components/ui/icon-action-row";
@@ -497,13 +498,14 @@ export function MarkdownEditor({
           )}
         </div>
         <IconActionRow className="ml-auto justify-end lg:ml-0">
-          <DownloadNoteButton content={content} title={title || undefined} iconOnly />
+          <CopyContentButton content={content} iconOnly />
           {noteId && (
             <CopyLinkButton
               noteId={noteId}
               iconOnly
             />
           )}
+          <DownloadNoteButton content={content} title={title || undefined} iconOnly />
           <Button
             variant="ghost"
             size="icon-sm"

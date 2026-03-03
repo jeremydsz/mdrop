@@ -37,7 +37,7 @@ export function DashboardHeader({ user }: DashboardHeaderProps) {
   return (
     <header className="flex items-center justify-between py-4 px-6 border-b border-[var(--border)]">
       <h1 className="text-heading font-semibold text-[var(--text-primary)]">
-        MDrop
+        md pockla
       </h1>
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
