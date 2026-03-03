@@ -31,33 +31,26 @@ function NoteRow({ note, currentUserId }: { note: NoteWithDisplayTitle; currentU
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
   const isOwner = currentUserId === note.author_id;
 
-  const handleCopyLink = async (e: React.MouseEvent) => {
-    e.preventDefault();
-    e.stopPropagation();
+  const handleCopyLink = async () => {
     await copyNoteLink(note.id);
     setLinkCopied(true);
     setTimeout(() => setLinkCopied(false), 2000);
   };
 
-  const handleDownload = (e: React.MouseEvent) => {
-    e.preventDefault();
-    e.stopPropagation();
+  const handleDownload = () => {
     downloadMarkdownNote(note.content, note.displayTitle);
   };
 
-  const handleDelete = (e: React.MouseEvent) => {
-    e.preventDefault();
-    e.stopPropagation();
+  const handleDelete = () => {
     setDeleteDialogOpen(true);
   };
 
   return (
     <>
-      <Link
-        href={`/n/${note.id}`}
+      <div
         className="group flex items-center justify-between gap-4 px-4 py-3 -mx-4 rounded-[10px] transition-colors hover:bg-[var(--surface-raised)]"
       >
-        <div className="flex-1 min-w-0">
+        <Link href={`/n/${note.id}`} className="flex-1 min-w-0 block">
           <h3 className="text-body font-medium text-[var(--text-primary)] truncate">
             {note.displayTitle}
           </h3>
@@ -102,7 +95,7 @@ function NoteRow({ note, currentUserId }: { note: NoteWithDisplayTitle; currentU
               </div>
             )}
           </div>
-        </div>
+        </Link>
         <IconActionRow hoverReveal>
           <CopyContentButton content={note.content} iconOnly />
           <Button
@@ -140,7 +133,7 @@ function NoteRow({ note, currentUserId }: { note: NoteWithDisplayTitle; currentU
             </Button>
           )}
         </IconActionRow>
-      </Link>
+      </div>
       {isOwner && (
         <DeleteNoteDialog
           open={deleteDialogOpen}

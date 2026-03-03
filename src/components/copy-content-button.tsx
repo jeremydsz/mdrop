@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, type MouseEvent } from "react";
+import { useState } from "react";
 import { Copy, Check } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
@@ -8,22 +8,16 @@ type CopyContentButtonProps = {
   content: string;
   iconOnly?: boolean;
   onCopySuccess?: () => void;
-  onClick?: (event: MouseEvent<HTMLButtonElement>) => void;
 };
 
 export function CopyContentButton({
   content,
   iconOnly = false,
   onCopySuccess,
-  onClick,
 }: CopyContentButtonProps) {
   const [copied, setCopied] = useState(false);
 
-  const handleCopy = async (event: MouseEvent<HTMLButtonElement>) => {
-    event.preventDefault();
-    event.stopPropagation();
-    onClick?.(event);
-
+  const handleCopy = async () => {
     await navigator.clipboard.writeText(content);
     setCopied(true);
     onCopySuccess?.();
