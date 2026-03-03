@@ -21,8 +21,9 @@ export function CopyLinkButton({
   const [copied, setCopied] = useState(false);
 
   const handleCopy = async (event: MouseEvent<HTMLButtonElement>) => {
+    event.preventDefault();
+    event.stopPropagation();
     onClick?.(event);
-    if (event.defaultPrevented) return;
 
     await copyNoteLink(noteId);
     setCopied(true);
