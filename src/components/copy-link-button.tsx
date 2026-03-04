@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, type MouseEvent } from "react";
 import { Link2, Check } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { copyNoteLink } from "@/lib/copy-link";
@@ -9,16 +9,21 @@ type CopyLinkButtonProps = {
   noteId: string;
   iconOnly?: boolean;
   onCopySuccess?: () => void;
+  onClick?: (event: MouseEvent<HTMLButtonElement>) => void;
 };
 
 export function CopyLinkButton({
   noteId,
   iconOnly = false,
   onCopySuccess,
+  onClick,
 }: CopyLinkButtonProps) {
   const [copied, setCopied] = useState(false);
 
-  const handleCopy = async () => {
+  const handleCopy = async (event: MouseEvent<HTMLButtonElement>) => {
+    onClick?.(event);
+    if (event.defaultPrevented) return;
+
     await copyNoteLink(noteId);
     setCopied(true);
     onCopySuccess?.();
