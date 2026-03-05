@@ -37,10 +37,10 @@ export function DashboardHeader({ user }: DashboardHeaderProps) {
   return (
     <header className="flex items-center justify-between py-4 px-6 border-b border-[var(--border)]">
       <h1 className="text-heading font-semibold text-[var(--text-primary)]">
-        md pockla
+        MDrop
       </h1>
       <DropdownMenu>
-        <DropdownMenuTrigger asChild>
+        <DropdownMenuTrigger asChild id="user-menu-trigger">
           <button className="rounded-full focus-visible:ring-2 focus-visible:ring-[var(--accent)] focus:outline-none">
             <Avatar>
               <AvatarImage src={user.image || undefined} alt={user.name} />
@@ -73,3 +73,4 @@ export function DashboardHeader({ user }: DashboardHeaderProps) {
     </header>
   );
 }
+
