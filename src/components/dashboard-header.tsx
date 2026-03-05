@@ -40,7 +40,7 @@ export function DashboardHeader({ user }: DashboardHeaderProps) {
         MDrop
       </h1>
       <DropdownMenu>
-        <DropdownMenuTrigger asChild>
+        <DropdownMenuTrigger asChild id="user-menu-trigger">
           <button className="rounded-full focus-visible:ring-2 focus-visible:ring-[var(--accent)] focus:outline-none">
             <Avatar>
               <AvatarImage src={user.image || undefined} alt={user.name} />
@@ -73,3 +73,4 @@ export function DashboardHeader({ user }: DashboardHeaderProps) {
     </header>
   );
 }
+

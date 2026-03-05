@@ -1,30 +1,30 @@
 "use client";
 
 import { useState, type MouseEvent } from "react";
-import { Link2, Check } from "lucide-react";
+import { Copy, Check } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { copyNoteLink } from "@/lib/copy-link";
 
-type CopyLinkButtonProps = {
-  noteId: string;
+type CopyContentButtonProps = {
+  content: string;
   iconOnly?: boolean;
+  className?: string;
   onCopySuccess?: () => void;
   onClick?: (event: MouseEvent<HTMLButtonElement>) => void;
 };
 
-export function CopyLinkButton({
-  noteId,
+export function CopyContentButton({
+  content,
   iconOnly = false,
+  className,
   onCopySuccess,
   onClick,
-}: CopyLinkButtonProps) {
+}: CopyContentButtonProps) {
   const [copied, setCopied] = useState(false);
 
   const handleCopy = async (event: MouseEvent<HTMLButtonElement>) => {
     onClick?.(event);
-    if (event.defaultPrevented) return;
 
-    await copyNoteLink(noteId);
+    await navigator.clipboard.writeText(content);
     setCopied(true);
     onCopySuccess?.();
     setTimeout(() => setCopied(false), 2000);
@@ -35,21 +35,22 @@ export function CopyLinkButton({
       <Button
         variant="ghost"
         size="icon-sm"
+        className={className}
         onClick={handleCopy}
-        aria-label={copied ? "Link copied" : "Copy link"}
-        title={copied ? "Copied" : "Copy link"}
+        aria-label={copied ? "Content copied" : "Copy content"}
+        title={copied ? "Copied" : "Copy content"}
       >
         {copied ? (
           <Check className="size-4 text-[var(--accent)]" />
         ) : (
-          <Link2 className="size-4" />
+          <Copy className="size-4" />
         )}
       </Button>
     );
   }
 
   return (
-    <Button variant="ghost" size="sm" onClick={handleCopy}>
+    <Button variant="ghost" size="sm" className={className} onClick={handleCopy}>
       {copied ? (
         <>
           <Check className="size-4 mr-1 text-[var(--accent)]" />
@@ -57,8 +58,8 @@ export function CopyLinkButton({
         </>
       ) : (
         <>
-          <Link2 className="size-4 mr-1" />
-          Copy link
+          <Copy className="size-4 mr-1" />
+          Copy
         </>
       )}
     </Button>

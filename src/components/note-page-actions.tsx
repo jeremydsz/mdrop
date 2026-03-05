@@ -5,6 +5,7 @@ import Link from "next/link";
 import { Pencil, Trash2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { IconActionRow } from "@/components/ui/icon-action-row";
+import { CopyContentButton } from "@/components/copy-content-button";
 import { CopyLinkButton } from "@/components/copy-link-button";
 import { DownloadNoteButton } from "@/components/download-note-button";
 import { DeleteNoteDialog } from "@/components/delete-note-dialog";
@@ -26,9 +27,10 @@ export function NotePageActions({
 
   return (
     <>
-      <IconActionRow>
-        <DownloadNoteButton content={noteContent} title={noteTitle} iconOnly />
+      <IconActionRow className="w-full flex-wrap justify-start sm:w-auto sm:justify-end">
+        <CopyContentButton content={noteContent} iconOnly />
         <CopyLinkButton noteId={noteId} iconOnly />
+        <DownloadNoteButton content={noteContent} title={noteTitle} iconOnly />
         {isAuthor && (
           <>
             <Button

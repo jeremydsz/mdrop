@@ -19,7 +19,7 @@ export function IconActionRow({
       className={cn(
         "flex items-center gap-1",
         hoverReveal &&
-          "opacity-0 transition-opacity group-hover:opacity-100 group-focus-within:opacity-100",
+          "opacity-100 transition-opacity md:opacity-0 md:group-hover:opacity-100 md:group-focus-within:opacity-100",
         className
       )}
     >

@@ -2,10 +2,11 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { Copy, Check, Download, Trash2, Lock } from "lucide-react";
+import { Link2, Check, Download, Trash2, Lock } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { DeleteNoteDialog } from "@/components/delete-note-dialog";
+import { CopyContentButton } from "@/components/copy-content-button";
 import { IconActionRow } from "@/components/ui/icon-action-row";
 import { downloadMarkdownNote } from "@/lib/note-download";
 import { copyNoteLink } from "@/lib/copy-link";
@@ -26,7 +27,7 @@ function formatDate(dateString: string) {
 }
 
 function NoteRow({ note, currentUserId }: { note: NoteWithDisplayTitle; currentUserId?: string }) {
-  const [copied, setCopied] = useState(false);
+  const [linkCopied, setLinkCopied] = useState(false);
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
   const isOwner = currentUserId === note.author_id;
 
@@ -34,8 +35,8 @@ function NoteRow({ note, currentUserId }: { note: NoteWithDisplayTitle; currentU
     e.preventDefault();
     e.stopPropagation();
     await copyNoteLink(note.id);
-    setCopied(true);
-    setTimeout(() => setCopied(false), 2000);
+    setLinkCopied(true);
+    setTimeout(() => setLinkCopied(false), 2000);
   };
 
   const handleDownload = (e: React.MouseEvent) => {
@@ -103,17 +104,27 @@ function NoteRow({ note, currentUserId }: { note: NoteWithDisplayTitle; currentU
           </div>
         </div>
         <IconActionRow hoverReveal>
+          <CopyContentButton
+            content={note.content}
+            iconOnly
+            className="hover:bg-[var(--surface)] focus-visible:bg-[var(--surface)]"
+            onClick={(e) => {
+              e.preventDefault();
+              e.stopPropagation();
+            }}
+          />
           <Button
             variant="ghost"
             size="icon-sm"
             onClick={handleCopyLink}
-            aria-label={copied ? "Link copied" : "Copy link"}
-            title={copied ? "Copied" : "Copy link"}
+            aria-label={linkCopied ? "Link copied" : "Copy link"}
+            title={linkCopied ? "Copied" : "Copy link"}
+            className="hover:bg-[var(--surface)] focus-visible:bg-[var(--surface)]"
           >
-            {copied ? (
+            {linkCopied ? (
               <Check className="size-4 text-[var(--accent)]" />
             ) : (
-              <Copy className="size-4" />
+              <Link2 className="size-4" />
             )}
           </Button>
           <Button
@@ -122,6 +133,7 @@ function NoteRow({ note, currentUserId }: { note: NoteWithDisplayTitle; currentU
             onClick={handleDownload}
             aria-label="Download note"
             title="Download note"
+            className="hover:bg-[var(--surface)] focus-visible:bg-[var(--surface)]"
           >
             <Download className="size-4" />
           </Button>

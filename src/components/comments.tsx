@@ -231,7 +231,7 @@ export function Comments({
                           variant="ghost"
                           size="icon-xs"
                           onClick={() => handleDeleteComment(comment.id)}
-                          className="text-[var(--text-tertiary)] opacity-0 transition-opacity group-hover:opacity-100 group-focus-within:opacity-100 hover:text-[var(--destructive)] focus-visible:text-[var(--destructive)]"
+                          className="text-[var(--text-tertiary)] opacity-100 transition-opacity md:opacity-0 md:group-hover:opacity-100 md:group-focus-within:opacity-100 hover:text-[var(--destructive)] focus-visible:text-[var(--destructive)]"
                           aria-label="Delete comment"
                           title="Delete comment"
                         >
@@ -249,7 +249,7 @@ export function Comments({
 
               {user ? (
                 <div className="pt-2">
-                  <div className="mb-2 flex items-center gap-1">
+                  <div className="mb-2 flex flex-wrap items-center gap-1">
                     <Button
                       type="button"
                       variant="ghost"
